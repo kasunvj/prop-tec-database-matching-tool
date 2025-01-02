@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Sheets Filter</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+  <div class="container mt-5">
+    <div class="row">
+      <!-- Left Section -->
+      <div class="col-md-4 left-section border-right">
+        <h4 class="mb-4">Filter Options</h4>
+        <form id="filterForm">
+          <div class="form-group">
+            <label for="text1">Text Input 1</label>
+            <input type="text" id="text1" name="text1" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="text2">Text Input 2</label>
+            <input type="text" id="text2" name="text2" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="dropdown1">Dropdown 1</label>
+            <select id="dropdown1" name="dropdown1" class="form-control">
+              <option value="">Select...</option>
+              <option value="Option1">Option1</option>
+              <option value="Option2">Option2</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="dropdown2">Dropdown 2</label>
+            <select id="dropdown2" name="dropdown2" class="form-control">
+              <option value="">Select...</option>
+              <option value="Option1">Option1</option>
+              <option value="Option2">Option2</option>
+            </select>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" id="tick1" name="tick1" class="form-check-input">
+            <label for="tick1" class="form-check-label">Tick Option 1</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" id="tick2" name="tick2" class="form-check-input">
+            <label for="tick2" class="form-check-label">Tick Option 2</label>
+          </div>
+          <button type="submit" class="btn btn-primary mt-3">Search</button>
+        </form>
+      </div>
+
+      <!-- Right Section -->
+      <div class="col-md-8 right-section">
+        <h4 class="mb-4">Search Results</h4>
+        <div id="results" class="p-3 border bg-light">No results yet</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/script.js"></script>
+</body>
+
+</html>
+
