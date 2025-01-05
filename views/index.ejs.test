@@ -1,0 +1,13 @@
+<form id="filterForm">
+  <input type="text" name="username" placeholder="Enter username">
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+  document.getElementById('filterForm').addEventListener('submit', (event) => {
+    event.preventDefault();  // Prevents the form from refreshing the page
+    const formData = new FormData(event.target);  // Collects form data
+    const username = formData.get('username');  // Extracts the value of the 'username' field
+    console.log('Username:', username);  // Logs the username to the console
+  });
+</script>

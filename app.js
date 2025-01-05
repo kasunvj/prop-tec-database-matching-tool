@@ -20,13 +20,60 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
+async function getColumnValues(range) {
+  const response = await sheets.spreadsheets.values.get({
+    spreadsheetId: SPREADSHEET_ID,
+    range: range,  // Example: 'Sheet1!A2:A100'
+  });
+  const uniqueValues = [...new Set(response.data.values.flat())];
+  return uniqueValues;
+}
+
+app.get('/dropdown-geo', async (req, res) => {
+  try {
+    const data = await getColumnValues('PropTech VCs!E2:E');  // Fetch all values in column A
+    res.json(data);  // Send data as JSON
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).send('Error fetching data');
+  }
+});
+app.get('/dropdown-part', async (req, res) => {
+  try {
+    const data = await getColumnValues('PropTech VCs!J2:J');  // Fetch all values in column A
+    res.json(data);  // Send data as JSON
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).send('Error fetching data');
+  }
+});
+app.get('/dropdown-series', async (req, res) => {
+  try {
+    const data = await getColumnValues('PropTech VCs!M2:M');  // Fetch all values in column A
+    res.json(data);  // Send data as JSON
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).send('Error fetching data');
+  }
+});
+app.get('/dropdown-medium', async (req, res) => {
+  try {
+    const data = await getColumnValues('PropTech VCs!O2:O');  // Fetch all values in column A
+    res.json(data);  // Send data as JSON
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    res.status(500).send('Error fetching data');
+  }
+});
+
 app.post('/search', async (req, res) => {
   const { text1, text2, dropdown1, dropdown2, tick1, tick2 } = req.body;
+  
 
   try {
     const result = await sheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: 'Sheet1!A1:D', // Adjust range as per your sheet
+      range: 'PropTech VCs!A1:D', // Adjust range as per your sheet
     });
 
     const rows = result.data.values;
@@ -46,6 +93,7 @@ app.post('/search', async (req, res) => {
       res.json({ success: false, message: 'No data found' });
     }
   } catch (error) {
+    console.log(error);
     res.json({ success: false, message: 'Error fetching data', error });
   }
 });

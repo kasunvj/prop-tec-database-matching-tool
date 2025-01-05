@@ -17,24 +17,48 @@
         <h4 class="mb-4">Filter Options</h4>
         <form id="filterForm">
           <div class="form-group">
-            <label for="text1">Text Input 1</label>
-            <input type="text" id="text1" name="text1" class="form-control">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" class="form-control">
           </div>
           <div class="form-group">
-            <label for="text2">Text Input 2</label>
-            <input type="text" id="text2" name="text2" class="form-control">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control">
           </div>
           <div class="form-group">
-            <label for="dropdown1">Dropdown 1</label>
-            <select id="dropdown1" name="dropdown1" class="form-control">
+            <label for="firm">Firm</label>
+            <input type="text" id="firm" name="firm" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="video">Video</label>
+            <input type="text" id="video" name="video" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="dropdown-geo">Geography</label>
+            <select id="dropdown-geo" name="dropdown-geo" class="form-control" multiple size="5">
               <option value="">Select...</option>
               <option value="Option1">Option1</option>
               <option value="Option2">Option2</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="dropdown2">Dropdown 2</label>
-            <select id="dropdown2" name="dropdown2" class="form-control">
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="min">Investment Min</label>
+            <input type="number" id="min" name="min" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="max">Investment Max</label>
+            <input type="number" id="max" name="max" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="sweetspot">Investment Sweet Spot</label>
+            <input type="number" id="sweetspot" name="sweetspot" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="dropdown-part">Participation</label>
+            <select id="dropdown-part" name="dropdown-part" class="form-control" multiple size="5">
               <option value="">Select...</option>
               <option value="Option1">Option1</option>
               <option value="Option2">Option2</option>
@@ -42,12 +66,40 @@
           </div>
           <div class="form-check">
             <input type="checkbox" id="tick1" name="tick1" class="form-check-input">
-            <label for="tick1" class="form-check-label">Tick Option 1</label>
+            <label for="tick1" class="form-check-label">PropTec Only</label>
           </div>
-          <div class="form-check">
-            <input type="checkbox" id="tick2" name="tick2" class="form-check-input">
-            <label for="tick2" class="form-check-label">Tick Option 2</label>
+
+          <div class="form-group">
+            <label for="tagInput">Enter Tags</label>
+            <input type="text" id="tagInput" class="form-control" placeholder="Type and press Enter">
           </div>
+          <div id="tagContainer" class="mt-2">
+            <!-- Tags will be added here -->
+          </div>
+
+          <div class="form-group">
+            <label for="dropdown-series">Series</label>
+            <select id="dropdown-series" name="dropdown-series" class="form-control" multiple size="5">
+              <option value="">Select...</option>
+              <option value="Option1">Option1</option>
+              <option value="Option2">Option2</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="dropdown-medium">Tec Medium</label>
+            <select id="dropdown-medium" name="dropdown-medium" class="form-control" multiple size="5">
+              <option value="">Select...</option>
+              <option value="Option1">Option1</option>
+              <option value="Option2">Option2</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="state">State</label>
+            <input type="text" id="state" name="state" class="form-control">
+          </div>
+          
           <button type="submit" class="btn btn-primary mt-3">Search</button>
         </form>
       </div>
