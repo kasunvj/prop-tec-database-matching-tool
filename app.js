@@ -67,9 +67,19 @@ app.get('/dropdown_medium', async (req, res) => {
   }
 });
 
+function subrow(dropdown_geo,myrow) {
+  for (const element of dropdown_geo) {
+    console.log("checking .. ", myrow);
+    if (myrow?.includes(element)) {
+      return true; // Return true if any element matches
+    }
+  }
+  return false; // Return false if no element matches
+}
+
 app.post('/search', async (req, res) => {
   console.log(req.body);
-  const { name,email, firm, video, dropdown_geo, city, min, max, sweetspot, dropdown_part, tick1, tags, dropdown_series,  state, dropdown_medium  } = req.body;
+  var { name,email, firm, video, dropdown_geo, city, min, max, sweetspot, dropdown_part, tick1, tags, dropdown_series,  state, dropdown_medium  } = req.body;
   
 
   try {
@@ -81,6 +91,7 @@ app.post('/search', async (req, res) => {
     const rows = result.data.values;
     if (rows.length) {
       const filteredResults = rows.filter(row => {
+
         // filtering logic
         /*
 
@@ -110,18 +121,20 @@ app.post('/search', async (req, res) => {
           ],
 
         */
-
         return (
-          (row[0].includes(name)) &&
-          (row[1].includes(email))&&
-          (row[2].includes(firm))&&
-          (row[3].includes(video))&&
-          (row[4].includes(dropdown_geo))&&
-          (row[5].includes(city))&&
-          (row[9].includes(dropdown_part))&&
-          (row[12].includes(dropdown_series))&&
-          (row[13].includes(state))&&
-          (row[14].includes(dropdown_medium ))
+          (!name || row[0]?.toLowerCase().includes(name.toLowerCase())) &&
+          (!email || row[1]?.toLowerCase().includes(email.toLowerCase()))&&
+          (!firm || row[2]?.toLowerCase().includes(firm.toLowerCase()))&&
+          (!video || row[3]?.toLowerCase().includes(video.toLowerCase()))&&
+          (!dropdown_geo.length ||dropdown_geo.some(item => row[4]?.includes(item)))&&
+          (city || row[5]?.toLowerCase().includes(city.toLowerCase()))&&
+          (parseInt(row[6]?.replace(/[,$]/g, '')) > parseInt(min)? true : !min)&&
+          (parseInt(row[7]?.replace(/[,$]/g, '')) < parseInt(max)? true : !max)&&
+          (!dropdown_part.length || dropdown_part.some(item => row[9]?.includes(item)))&&
+          (!dropdown_series.length || dropdown_series.some(item => row[12]?.includes(item)))&&
+          (!state || row[13].toLowerCase()?.includes(state.toLowerCase()))&&
+          (!dropdown_medium.length || dropdown_medium.some(item => row[14]?.includes(item)))
+          
           
         );
         /*

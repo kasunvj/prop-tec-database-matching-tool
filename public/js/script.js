@@ -8,10 +8,13 @@ document.getElementById('filterForm').addEventListener('submit', async (event) =
   const selectedValues_part = formData.getAll("dropdown_part");
   const selectedValues_medium = formData.getAll("dropdown_medium");
   const selectedValues_series = formData.getAll("dropdown_series");
+  const tags = formData.getAll("tagInput");
   data["dropdown_geo"] = selectedValues_geo;
   data["dropdown_part"] = selectedValues_part;
   data["dropdown_medium"] = selectedValues_medium;
   data["dropdown_series"] = selectedValues_series;
+  data["tags"] = tags;
+  
   
 
   const response = await fetch('/search', {
@@ -22,9 +25,30 @@ document.getElementById('filterForm').addEventListener('submit', async (event) =
 
   const result = await response.json();
   const resultsContainer = document.getElementById('results');
-  resultsContainer.innerHTML = result.success
-    ? result.results.map(row => `<div>${row.join(' - ')}</div>`).join('')
-    : `<div>${result.message}</div>`;
+  if (result.success) {
+    resultsContainer.innerHTML = result.results
+      .map(row => {
+        // Assume the first item in the row is the title
+        const title = row[0]; // First item as the title
+        const content = row.slice(1); // Rest of the items as content
+        
+        return `
+          <div class="card mb-3">
+            <div class="card-header">
+              <strong>${title}</strong>  <!-- Display the title -->
+            </div>
+            <div class="card-body">
+              ${content.map(item => `<p class="card-text">${item}</p>`).join('')}
+            </div>
+          </div>
+        `;
+      })
+      .join('');
+  } else {
+    resultsContainer.innerHTML = `<div class="alert alert-danger">${result.message}</div>`;
+  }
+  
+
 });
 
 
@@ -127,10 +151,12 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
   const tagInput = document.getElementById('tagInput');
   const tagContainer = document.getElementById('tagContainer');
-  const tags = new Set();  // Use Set to avoid duplicate tags
+  
+  
 
   function addTag(tagText) {
     if (tagText.trim() && !tags.has(tagText)) {
+      const tags = new Set();  // Use Set to avoid duplicate tags
       tags.add(tagText);  // Add to Set to prevent duplicates
       const tag = document.createElement('span');
       tag.className = 'badge badge-primary m-1';
