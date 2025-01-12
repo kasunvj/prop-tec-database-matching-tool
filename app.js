@@ -1,3 +1,15 @@
+/*
+Prop-tec Investor matching tool
+Author: Kasun Jayalath
+Date: 13/01/2025
+
+Todo 
+  - Filtering for sweetspot is to be implemented
+  - Filtering for tags is to be implemented
+  - Filtering for proptec or non proptec is to be implemented 
+
+*/
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const { google } = require('googleapis');
@@ -13,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
-// Configure Google Sheets API
+// Google-sheets API
 const sheets = google.sheets({ version: 'v4', auth: googleApiKey });
 const SPREADSHEET_ID = spreadsheetId;
 
@@ -24,39 +36,46 @@ app.get('/', (req, res) => {
 async function getColumnValues(range) {
   const response = await sheets.spreadsheets.values.get({
     spreadsheetId: SPREADSHEET_ID,
-    range: range,  // Example: 'Sheet1!A2:A100'
+    range: range, 
   });
   const uniqueValues = [...new Set(response.data.values.flat())];
   return uniqueValues;
 }
 
+//Fetching values for geography info dropdown
 app.get('/dropdown_geo', async (req, res) => {
   try {
-    const data = await getColumnValues('PropTech VCs!E2:E');  // Fetch all values in column A
-    res.json(data);  // Send data as JSON
+    const data = await getColumnValues('PropTech VCs!E2:E');  
+    res.json(data);  
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).send('Error fetching data');
   }
 });
+
+//Fetching values for participation method dropdown
 app.get('/dropdown_part', async (req, res) => {
   try {
-    const data = await getColumnValues('PropTech VCs!J2:J');  // Fetch all values in column A
-    res.json(data);  // Send data as JSON
+    const data = await getColumnValues('PropTech VCs!J2:J');  
+    res.json(data);  
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).send('Error fetching data');
   }
 });
+
+//Fetching values for series dropdown
 app.get('/dropdown_series', async (req, res) => {
   try {
-    const data = await getColumnValues('PropTech VCs!M2:M');  // Fetch all values in column A
-    res.json(data);  // Send data as JSON
+    const data = await getColumnValues('PropTech VCs!M2:M'); 
+    res.json(data); 
   } catch (error) {
     console.error('Error fetching data:', error);
     res.status(500).send('Error fetching data');
   }
 });
+
+//Fetching values for tec medium dropdown
 app.get('/dropdown_medium', async (req, res) => {
   try {
     const data = await getColumnValues('PropTech VCs!O2:O');  // Fetch all values in column A
@@ -67,16 +86,8 @@ app.get('/dropdown_medium', async (req, res) => {
   }
 });
 
-function subrow(dropdown_geo,myrow) {
-  for (const element of dropdown_geo) {
-    console.log("checking .. ", myrow);
-    if (myrow?.includes(element)) {
-      return true; // Return true if any element matches
-    }
-  }
-  return false; // Return false if no element matches
-}
 
+//clicking the submit button 
 app.post('/search', async (req, res) => {
   console.log(req.body);
   var { name,email, firm, video, dropdown_geo, city, min, max, sweetspot, dropdown_part, tick1, tags, dropdown_series,  state, dropdown_medium  } = req.body;
@@ -92,8 +103,10 @@ app.post('/search', async (req, res) => {
     if (rows.length) {
       const filteredResults = rows.filter(row => {
 
-        // filtering logic
         /*
+        Filtering logic
+        Visit below link for more details
+        https://drive.google.com/file/d/1OnZbHr1iRpesnyKIcMf9toUmsV26t1L8/view?usp=sharing
 
         rows=
         [
@@ -137,12 +150,6 @@ app.post('/search', async (req, res) => {
           
           
         );
-        /*
-        return (
-          (!name || row[0]?.includes(name)) &&
-          (!email|| row[1]?.includes(email)) &&
-          (!firm|| row[1]?.includes(firm)) 
-        );*/
       });
       //console.log(filteredResults)
 

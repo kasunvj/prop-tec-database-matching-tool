@@ -1,3 +1,11 @@
+/*
+Prop-tec Investor matching tool
+Author: Kasun Jayalath
+Date: 13/01/2025
+
+Todo:
+
+*/
 document.getElementById('filterForm').addEventListener('submit', async (event) => {
   event.preventDefault();
 
@@ -30,9 +38,9 @@ document.getElementById('filterForm').addEventListener('submit', async (event) =
     console.log(result.results);
     resultsContainer.innerHTML = result.results
       .map(row => {
-        // Assume the first item in the row is the title
-        const title = row[0]; // First item as the title
-        const content = row.slice(1); // Rest of the items as content
+       
+        const title = row[0]; 
+        const content = row.slice(1); 
         
         return `
           <div class="card mb-3">
@@ -52,7 +60,6 @@ document.getElementById('filterForm').addEventListener('submit', async (event) =
   
 
 });
-
 
 document.getElementById('dropdown_geo').addEventListener('change', () => {
   const selectedOptions = Array.from(document.getElementById('dropdown_geo').selectedOptions);
@@ -83,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(response => response.json())
     .then(data => {
       const dropdown = document.getElementById('dropdown_geo');
-      dropdown.innerHTML = '';  // Clear existing options
+      dropdown.innerHTML = '';  
       data.forEach(item => {
         const option = document.createElement('option');
         option.value = item;
@@ -101,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(response => response.json())
     .then(data => {
       const dropdown = document.getElementById('dropdown_part');
-      dropdown.innerHTML = '';  // Clear existing options
+      dropdown.innerHTML = '';  
       data.forEach(item => {
         const option = document.createElement('option');
         option.value = item;
@@ -119,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(response => response.json())
     .then(data => {
       const dropdown = document.getElementById('dropdown_series');
-      dropdown.innerHTML = '';  // Clear existing options
+      dropdown.innerHTML = '';  
       data.forEach(item => {
         const option = document.createElement('option');
         option.value = item;
@@ -137,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(response => response.json())
     .then(data => {
       const dropdown = document.getElementById('dropdown_medium');
-      dropdown.innerHTML = '';  // Clear existing options
+      dropdown.innerHTML = '';  
       data.forEach(item => {
         const option = document.createElement('option');
         option.value = item;
