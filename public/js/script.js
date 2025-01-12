@@ -14,7 +14,7 @@ document.getElementById('filterForm').addEventListener('submit', async (event) =
   data["dropdown_medium"] = selectedValues_medium;
   data["dropdown_series"] = selectedValues_series;
   data.tags = tags;
-  console.log(data);  // Check the output
+  //console.log(data);  // Check the output
   
   
 
@@ -27,6 +27,7 @@ document.getElementById('filterForm').addEventListener('submit', async (event) =
   const result = await response.json();
   const resultsContainer = document.getElementById('results');
   if (result.success) {
+    console.log(result.results);
     resultsContainer.innerHTML = result.results
       .map(row => {
         // Assume the first item in the row is the title
