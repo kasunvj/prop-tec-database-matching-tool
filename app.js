@@ -144,7 +144,7 @@ app.post('/search', async (req, res) => {
           (!firm|| row[1]?.includes(firm)) 
         );*/
       });
-      console.log(filteredResults)
+      //console.log(filteredResults)
 
       res.json({ success: true, results: filteredResults });
     } else {

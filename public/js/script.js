@@ -13,7 +13,8 @@ document.getElementById('filterForm').addEventListener('submit', async (event) =
   data["dropdown_part"] = selectedValues_part;
   data["dropdown_medium"] = selectedValues_medium;
   data["dropdown_series"] = selectedValues_series;
-  data["tags"] = tags;
+  data.tags = tags;
+  console.log(data);  // Check the output
   
   
 
@@ -151,38 +152,48 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
   const tagInput = document.getElementById('tagInput');
   const tagContainer = document.getElementById('tagContainer');
+  const tagsInputHidden = document.getElementById('tagsInputHidden');
+  let tagsArray = [];
   
-  
 
-  function addTag(tagText) {
-    if (tagText.trim() && !tags.has(tagText)) {
-      const tags = new Set();  // Use Set to avoid duplicate tags
-      tags.add(tagText);  // Add to Set to prevent duplicates
-      const tag = document.createElement('span');
-      tag.className = 'badge badge-primary m-1';
-      tag.textContent = tagText;
-
-      // Add remove button for tag
-      const removeBtn = document.createElement('span');
-      removeBtn.className = 'ml-2 text-white';
-      removeBtn.style.cursor = 'pointer';
-      removeBtn.textContent = 'x';
-      removeBtn.onclick = () => {
-        tags.delete(tagText);  // Remove from Set
-        tagContainer.removeChild(tag);
-      };
-
-      tag.appendChild(removeBtn);
-      tagContainer.appendChild(tag);
+  // Add tags on Enter key press
+  tagInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const tag = tagInput.value.trim();
+      if (tag && !tagsArray.includes(tag)) {
+        tagsArray.push(tag);
+        displayTag(tag);
+        tagInput.value = '';
+      }
     }
+  });
+
+  function displayTag(tag) {
+    const span = document.createElement('span');
+    span.className = 'badge badge-primary mr-2 mb-2';
+    span.textContent = tag;
+    const removeButton = document.createElement('button');
+    removeButton.type = 'button';
+    removeButton.className = 'close ml-1';
+    removeButton.innerHTML = '&times;';
+    removeButton.onclick = function () {
+      tagsArray = tagsArray.filter(t => t !== tag);
+      tagContainer.removeChild(span);
+      updateHiddenInput();
+    };
+    span.appendChild(removeButton);
+    tagContainer.appendChild(span);
+    updateHiddenInput();
   }
 
-  tagInput.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      addTag(tagInput.value);
-      tagInput.value = '';  // Clear input field
-    }
+  function updateHiddenInput() {
+    tagsInputHidden.value = tagsArray.join(',');
+  }
+
+  // Ensure hidden input is updated before form submission
+  document.getElementById('filterForm').addEventListener('submit', function () {
+    updateHiddenInput(); // Just to be sure it is updated
   });
 });
 
